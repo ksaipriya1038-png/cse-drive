@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Drive-Register</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+     <header>
+       <div class="logo">CSE Drive</div>
+    </header>
+    <div class="bubble-area">
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+    </div>
+    <div class="auth-container">
+        <form id="registerForm" class="form-box">
+            <h2>Student Registration</h2>
+            <input type="text" id="reg-name" placeholder="Full Name" required class="form-box input">
+            <input type="text" id="reg-roll" placeholder="Roll Number" required class="form-box input">
+            <input type="email" id="reg-email" placeholder="Email Address" required class="form-box input">
+            <input type="password" id="reg-pass" placeholder="Password" required class="form-box input">
+            <button type="submit" class="form-box button">Register</button>
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </form>
+    </div>
+    <div id="success-popup" class="popup-overlay" style="display: none; position: fixed; top: 0;left: 0; width: 100%;height: 100%; background: rgba(0,0,0,0.5); z-index: 999;">
+        <div class="popup-box" style="background: white; width: 300px; margin: 15% auto; padding: 20px;text-align: center; border-radius: 8px; ">
+            <h3>Registration Successful!</h3>
+            <p>Your account is sent for Admin Approval.</p>
+            <button id="ok-btn" onclick="window.location.href='login.html'" style="background: #2c3e50; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">OK</button>
+        </div>
+    </div>
+     <footer>
+        <h4>Made with 🧡 by priya | © 2026 CSE Drive. All Rights Reserved.</h4>
+    </footer>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let fullName = document.getElementById('reg-name').value.trim();
+            let rollNo = document.getElementById('reg-roll').value.trim();
+            let email = document.getElementById('reg-email').value.trim();
+            let password = document.getElementById('reg-pass').value.trim();
+            let pendingUsers = JSON.parse(localStorage.getItem('pendingUsers')) || [];
+            let activeUsers = JSON.parse(localStorage.getItem('activeUsers')) || [];
+            let emailExists = pendingUsers.some(user => user.email === email) || activeUsers.some(user => user.email === email);
+            if (emailExists) {
+                alert('This email is already registered!');
+                return;
+            }
+            let newUser = {
+                name: fullName,
+                roll: rollNo,
+                email: email,
+                password: password
+            };
+            pendingUsers.push(newUser);
+            localStorage.setItem('pendingUsers', JSON.stringify(pendingUsers));
+            document.getElementById('success-popup').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Drive - Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bubble-area">
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+    </div>
+    <header >
+        <div class="logo">Admin Control Panel</div>
+        <div class="bell-notification">User is waiting for your approval</div>
+        <button class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
+    </header>
+    <main class="admin-container">
+        <h2>Pending Student Approvals</h2>
+        <h3>Total Pending: <span id="user-count">0</span></h3>
+        <table class="approval-table" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+                <tr style="background-color: #f2f2f2; text-align: left;">
+                    <th style="padding: 12px; border-bottom: 2px solid #ddd;">User Name</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #ddd;">Roll Number</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #ddd;">Email</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #ddd;">Action</th>
+                </tr>
+            </thead>
+            <tbody id="approval-table-body">
+            </tbody>
+        </table>
+    </main>
+    <footer style="margin-top: 40px; text-align: center;">
+        <h4>Made with ❤️ by priya | © 2026 CSE Drive. All Rights Reserved.</h4>
+    </footer>
+    <script>
+    function loadPendingUsers() {
+        let pendingUsers = JSON.parse(localStorage.getItem('pendingUsers')) || [];
+        let tableBody = document.getElementById('approval-table-body');
+        let userCountSpan = document.getElementById('user-count');
+        if (userCountSpan) {
+            userCountSpan.innerText = pendingUsers.length;
+        }
+        if (tableBody) {
+            tableBody.innerHTML = '';
+            if (pendingUsers.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:#777;">No pending approvals</td></tr>';
+                return;
+            }
+            pendingUsers.forEach((user, index) => {
+                let row = `<tr>
+                    <td style="padding: 12px; border-bottom: 1px solid #ddd;">${user.name}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #ddd;">${user.roll}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #ddd;">${user.email}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #ddd;">
+                        <button onclick="approveUser(${index})" class="btn-approve" style="background-color:green; color:white; border:none; padding:6px 12px; cursor:pointer; border-radius:4px; font-weight:bold;">Approve</button>
+                    </td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+    }
+    function approveUser(index) {
+        let pendingUsers = JSON.parse(localStorage.getItem('pendingUsers')) || [];
+        let activeUsers = JSON.parse(localStorage.getItem('activeUsers')) || [];
+        let approvedUser = pendingUsers.splice(index, 1)[0];
+        activeUsers.push(approvedUser);
+        localStorage.setItem('pendingUsers', JSON.stringify(pendingUsers));
+        localStorage.setItem('activeUsers', JSON.stringify(activeUsers));
+        alert('User Approved Successfully!');
+        loadPendingUsers();
+    }
+    document.addEventListener('DOMContentLoaded', loadPendingUsers);
+    </script>
+</body>
+</html>

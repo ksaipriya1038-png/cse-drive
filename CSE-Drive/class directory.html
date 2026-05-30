@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Classmates Directory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-title" style="color: black; font-weight: bold; font-size: xx-large;">CSE Classmates Directory</div>
+        <input type="text" id="searchFriend" onkeyup="searchFunction()" placeholder="Search friend by name...">
+        <button class="logout-btn" onclick="window.location.href='register.html'">Logout</button>
+    </header>
+    <main class="directory-container">
+        <div class="friends-grid" id="friendsGrid"></div>
+    </main>
+    <footer style="margin-top: 40px; text-align: center; padding: 20px 0;">
+        <h4>Made with ❤️ by priya | © 2026 CSE Drive. All Rights Reserved.</h4>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let officialClassmates = [
+                {
+                    name: "DEEPTHI",
+                    roll: "24UJ1A0505",
+                    father: "BeemeswaraRao",
+                    mother: "Krishna Kumari",
+                    mobile: "9014722354",
+                    skills: ["HTML", "CSS", "Python"],
+                    instagram: "#",
+                    github: "https://github.com/deepthibarigela/Team_Rednova",
+                    linkedin: "https://www.linkedin.com/in/deepthi-barigela-8606993b7",
+                    image: "deepu.jpeg"
+                },
+                {
+                    name: "SHANMUKHA",
+                    roll: "24UJ1A0509",
+                    father: "V.V Ramana Murthy",
+                    mother: "Venkata Subba Laxmi",
+                    mobile: "8555909637",
+                    skills: ["HTML", "Java", "CSS", "Python"],
+                    instagram: "https://www.instagram.com/shannuuu_.18/",
+                    github: "https://github.com/chshanmukha7-tech",
+                    linkedin: "https://www.linkedin.com/in/shanmukha-chinthalapudi",
+                    image: "shannu.jpeg"
+                },
+                {
+                    name: "SAIPRIYA",
+                    roll: "24UJ1A0532",
+                    father: "Vijay Kumar",
+                    mother: "Geetha",
+                    mobile: "9063619230",
+                    skills: ["HTML", "CSS", "Java"],
+                    instagram: "https://www.instagram.com/aesthetic_priya_27?",
+                    github: "https://github.com/ksaipriya1038-png",
+                    linkedin: " https://www.linkedin.com/in/saipriya-kondi-899b28412?utm_source=share_via&utm_contet=profile&utm_medium=member_android",
+                    image: "priya.jpeg" 
+                },
+                {
+                    name: "SPOORTHI",
+                    roll: "24UJ1A0533",
+                    father: "Kanakaiah",
+                    mother: "Saritha",
+                    mobile: "8639626827",
+                    skills: ["HTML", "CSS", "Python"],
+                    instagram: "https://www.instagram.com/spoorthi_shalivahana_/",
+                    github: "https://github.com/spoorthi806",
+                    linkedin: " https://www.linkedin.com/in/spoorthi-kummari-2a6678370/",
+                    image: "spoorthi.jpeg" 
+                },
+                {
+                    name: "SWATHI",
+                    roll: "24UJ1A0547",
+                    father: "Ashok",
+                    mother: "Sujatha",
+                    mobile: "9177968294",
+                    skills: ["Python", "Java"],
+                    instagram: "https://www.instagram.com/itzz_me_kannayaa?igsh=MWh6eHN1bnV2bmtuMA==",
+                    github: "https://github.com/swathipaampari772-del",
+                    linkedin: "https://www.linkedin.com/in/swathi-pampari-49696b347?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+                    image: "swathi.jpeg" 
+                },
+                {
+                    name: "RINKU KUMAWATH",
+                    roll: "24UJ1A0556",
+                    father: "Chanaram kumawat ",
+                    mother: "samu devi",
+                    mobile: "9700390712",
+                    skills: ["HTML", "CSS", "Java","Python"],
+                    instagram: " https://www.instagram.com/mikuu_oyy?igsh=MTllaW55b3A3Z2JxMQ==",
+                    github: "#",
+                    linkedin: "#",
+                    image: "rinku.jpeg" 
+                },
+                {
+                    name: "LAHARINATH REDDY",
+                    roll: "24UJ1A05B6",
+                    father: "Chandra Sekhar Reddy",
+                    mother: "Lavanya ",
+                    mobile: "6281907744",
+                    skills: ["HTML", "CSS", "Java"],
+                    instagram: "https://www.instagram.com/reddy_plr?igsh=Z3l6YjBxc21ncTVn",
+                    github: "https://github.com/poreddylaharinathareddy ",
+                    linkedin: "linkedin.com/in/laharinatha-reddy-poreddy-4378733b7",
+                    image: "lahari.jpeg" 
+                },
+            ];
+            displayCards(officialClassmates);
+        });
+        function displayCards(users) {
+            let grid = document.getElementById('friendsGrid');
+            grid.innerHTML = '';
+            users.forEach(user => {
+                let skillsHTML = '';
+                if (user.skills && Array.isArray(user.skills)) {
+                    user.skills.forEach(skill => {
+                        skillsHTML += `<span class="skill-badge">${skill}</span>`;
+                    });
+                } else {
+                    skillsHTML = `<span class="skill-badge">HTML</span><span class="skill-badge">CSS</span>`;
+                }
+                let userImg = user.image || 'images/default.png';
+                let card = `
+                    <div class="student-card">
+                        <div class="card-img-container">
+                            <img src="${userImg}" alt="${user.name}" onerror="this.src='https://via.placeholder.com/150'">
+                        </div>
+                        <h2 class="friend-name">${user.name}</h2>
+                        <p class="roll-no">Roll no: ${user.roll || 'N/A'}</p>
+                        <div class="details-section">
+                            <p><strong>Father:</strong> ${user.father || 'N/A'}</p>
+                            <p><strong>Mother:</strong> ${user.mother || 'N/A'}</p>
+                            <p><strong>Mobile:</strong> ${user.mobile || 'N/A'}</p>
+                        </div>
+                        <div class="skills-container">
+                            ${skillsHTML}
+                        </div>
+                        <div class="social-links">
+                            <a href="${user.instagram || '#'}" target="_blank" class="instagram">Instagram</a>
+                            <a href="${user.github || '#'}" target="_blank" class="github">GitHub</a>
+                            <a href="${user.linkedin || '#'}" target="_blank" class="linkedin">LinkedIn</a>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+        function searchFunction() {
+            let input = document.getElementById('searchFriend').value.toLowerCase();
+            let cards = document.getElementsByClassName('student-card');
+            for (let i = 0; i < cards.length; i++) {
+                let nameElement = cards[i].getElementsByClassName('friend-name')[0];
+                let name = nameElement ? nameElement.innerText.toLowerCase() : '';
+                if (name.includes(input)) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
