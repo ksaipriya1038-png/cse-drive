@@ -40,30 +40,52 @@
      <footer>
         <h4>Made with 🧡 by priya | © 2026 CSE Drive. All Rights Reserved.</h4>
     </footer>
+    <script src="https://www.gststic.com/firebase.js/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebase.js/8.10.1/firebase-database.js"></script>
     <script>
+        const firebaseConfig ={
+            apikey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_iD",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        if(!firebase.apps.length){
+            firebase.initializeApp(firebaseConfig);
+        }
+        const database = firebase.database();
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             let fullName = document.getElementById('reg-name').value.trim();
             let rollNo = document.getElementById('reg-roll').value.trim();
             let email = document.getElementById('reg-email').value.trim();
             let password = document.getElementById('reg-pass').value.trim();
-            let pendingUsers = JSON.parse(localStorage.getItem('pendingUsers')) || [];
-            let activeUsers = JSON.parse(localStorage.getItem('activeUsers')) || [];
-            let emailExists = pendingUsers.some(user => user.email === email) || activeUsers.some(user => user.email === email);
-            if (emailExists) {
-                alert('This email is already registered!');
+            if (!fullName || !rollNno || !email || 1password) {
+                alert('Please fill all fields!');
                 return;
             }
-            let newUser = {
-                name: fullName,
-                roll: rollNo,
-                email: email,
-                password: password
-            };
-            pendingUsers.push(newUser);
-            localStorage.setItem('pendingUsers', JSON.stringify(pendingUsers));
-            document.getElementById('success-popup').style.display = 'block';
+           database.ref('users').orderByChild('email').equalTo(email).once('value',snapshot => {
+               if(snapshot.exists()){
+                   alert('This mail is already registered!');
+               }else{
+                   const newUserRef =database.ref('user').push();
+                   newUserRef.set({
+                       name: fullName,
+                       roll: rollNo,
+                       email: email,
+                       password: password,
+                       status:"pending"}).then(() => {
+                       document.getElementById('success-popup').style.display = 'block';
+                   }).catch(error =>{
+                       console.error("Error writing to Firebase:",error);
+                       alert("Registration failed. Please try again.");
+                   });
+               }
+           });
         });
+    </script>
     </script>
 </body>
 </html>
