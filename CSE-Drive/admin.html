@@ -44,63 +44,73 @@
     <footer style="margin-top: 40px; text-align: center;">
         <h4>Made with ❤️ by priya | © 2026 CSE Drive. All Rights Reserved.</h4>
     </footer>
-    <script src="https://www.gstatic.com/firebase.js/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebase.js/8.10.1/firebase-database.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyA-FakeKeyForTemplateCheckOnly",
-            authDomain: "cse-drive-8a583.firebaseapp.com",
-            databaseURL: "https://cse-drive-8a583-default-rtdb.firebaseio.com/",
-            projectId: "cse-drive-8a583",
-            storageBucket: "cse-drive-8a583.appspot.com",
-            messagingSenderId: "782349817234",
-            appId: "1:782349817234:web:abc123xyz"
-        };
-        if(!firebase.apps.length){
-            firebase.initializeApp(firebaseConfig);
-        }
-        const database = firebase.database();
-        function loadPendingUsers() {
+      // Firebase Configuration Setup
+      const firebaseConfig = {
+        apiKey:"AIzaSyA6GukZLrNamOa9ts_U-gb9NR0turVzYA8",
+        authDomain: "cse-drive-8a583.firebaseapp.com",
+        databaseURL: "https://cse-drive-8a583-default-rtdb.firebaseio.com/",
+        projectId: "cse-drive-8a583",
+        storageBucket: "cse-drive-8a583.appspot.com",
+        messagingSenderId: "782349817234",
+        appId: "1:782349817234:web:abc123xyz"
+      };
+
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+      const database = firebase.database();
+
+      function loadPendingUsers() {
         let tableBody = document.getElementById('approval-table-body');
         let userCountSpan = document.getElementById('user-count');
-        if (tableBody)
-                return;
-            database.ref('users').orderByChild('status').equalTo('pending').on('value',snapshot => {
-                tableBody.innerHTML ='';
-                let count = 0;
-                if(!snapshot.exists()){
-                    if(userCountSpan) userCountSpan.innerText == '0';
-                    tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:#777;"> No pending approvals</tr>';
-                    return;
-                }
-                snapshot.forEach(childSnapshot => {
-                    let user = childSnapshot.val();
-                    let userId = childSnapshot.key;
-                    count++;
-                let row = `<tr>
-                    <td style="padding: 12px; border-bottom: 1px solid #ddd;">${user.name}</td>
-                    <td style="padding: 12px; border-bottom: 1px solid #ddd;">${user.roll}</td>
-                    <td style="padding: 12px; border-bottom: 1px solid #ddd;">${user.email}</td>
-                    <td style="padding: 12px; border-bottom: 1px solid #ddd;">
-                        <button onclick="approveUser('${userId}')" class="btn-approve" style="background-color:green; color:white; border:none; padding:6px 12px; cursor:pointer; border-radius:4px; font-weight:bold;">Approve</button>
-                    </td>
-                </tr>`;
-                tableBody.innerHTML += row;
-            });
-                if(userCountSpan){
-                    userCountSpan.innerText = count;
-                }
-            });
-        }
-    function approveUser(userId) {
-       database.ref('users/' + userId).update({
-           status: "approved" }).then(() => {
-           alert('User Approved Successfully!');
-       }).catch(error => {
-           alert("Error approving user: " + error.message);
-       });
-    }
-        document.addEventListener('DOMContentLoaded', loadPendingUsers);
+        if (!tableBody) return;
+
+        database.ref('users').orderByChild('status').equalTo('pending').on('value', snapshot => {
+          tableBody.innerHTML = '';
+          let count = 0;
+
+          if (!snapshot.exists()) {
+            if (userCountSpan) userCountSpan.innerText = '0';
+            tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:#777;">No pending student approvals found.</td></tr>';
+            return;
+          }
+
+          snapshot.forEach(childSnapshot => {
+            let user = childSnapshot.val();
+            let userId = childSnapshot.key;
+            count++;
+
+            let row = `<tr>
+              <td style="padding: 12px; border-bottom: 1px solid #ddd;">${user.name}</td>
+              <td style="padding: 12px; border-bottom: 1px solid #ddd;">${user.roll || 'N/A'}</td>
+              <td style="padding: 12px; border-bottom: 1px solid #ddd;">${user.email}</td>
+              <td style="padding: 12px; border-bottom: 1px solid #ddd;">
+                <button onclick="approveUser('${userId}')" style="background-color:green; color:white; border:none; padding: 6px 12px; cursor: pointer; border-radius:4px; font-weight:bold;">Approve</button>
+              </td>
+            </tr>`;
+            tableBody.innerHTML += row;
+          });
+
+          if (userCountSpan) userCountSpan.innerText = count;
+        });
+      }
+
+      function approveUser(userId) {
+        database.ref('users/' + userId).update({
+          status: "approved"
+        }).then(() => {
+          alert('Student Approved Successfully!');
+        }).catch(error => {
+          alert("Error approving user: " + error.message);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', loadPendingUsers);
     </script>
 </body>
 </html>
