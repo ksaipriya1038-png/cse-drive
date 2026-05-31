@@ -44,12 +44,9 @@
     <footer style="margin-top: 40px; text-align: center;">
         <h4>Made with ❤️ by priya | © 2026 CSE Drive. All Rights Reserved.</h4>
     </footer>
-    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
     <script>
-      // Firebase Configuration Setup
       const firebaseConfig = {
         apiKey:"AIzaSyA6GukZLrNamOa9ts_U-gb9NR0turVzYA8",
         authDomain: "cse-drive-8a583.firebaseapp.com",
@@ -59,12 +56,10 @@
         messagingSenderId: "782349817234",
         appId: "1:782349817234:web:abc123xyz"
       };
-
       if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
       }
       const database = firebase.database();
-
       function loadPendingUsers() {
         let tableBody = document.getElementById('approval-table-body');
         let userCountSpan = document.getElementById('user-count');
