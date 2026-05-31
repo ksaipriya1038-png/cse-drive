@@ -1,16 +1,52 @@
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Drive-Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<header>
+    <div class="logo">CSE Drive</div>
+</header>
+<body>
+    <div class="bubble-area">
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+        <div class="float-text">CSE Drive</div>
+    </div>
+    <div class="auth-container">
+        <form id="loginForm" class="form-box">
+            <h2>Login</h2>
+            <select id="role-select" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 4px; border: 1px solid #ccc;">
+                <option value="student">Student</option>
+                <option value="admin">Admin</option>
+            </select>
+            <input type="text" id="username" placeholder="Username / Email" required class="form-box input">
+            <input type="password" id="password" placeholder="Password" required class="form-box input">
+            <button type="submit" class="form-box button">Login</button>
+            <p>Don't have an account? <a href="register.html">Register here</a></p>
+        </form>
+    </div>
+    <footer>
+        <h4>Made with 🧡 by priya | © 2026 CSE Drive. All Rights Reserved.</h4>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-  // TODO: Replace with your actual Firebase config keys
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
+    apiKey: "AIzaSyA-FakeKeyForTemplateCheckOnly", 
+    authDomain: "cse-drive-8a583.firebaseapp.com",
     databaseURL: "https://cse-drive-8a583-default-rtdb.firebaseio.com/",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    projectId: "cse-drive-8a583",
+    storageBucket: "cse-drive-8a583.appspot.com",
+    messagingSenderId: "782349817234",
+    appId: "1:782349817234:web:abc123xyz"
   };
 
   if (!firebase.apps.length) {
@@ -38,8 +74,9 @@
       } else {
         alert('Invalid Admin Credentials!');
       }
-    } else {
-      // Direct Live Check from cloud database
+    } 
+
+    else {
       database.ref('users').orderByChild('email').equalTo(userEmail).once('value', snapshot => {
         if (snapshot.exists()) {
           let userFound = false;
@@ -56,9 +93,11 @@
               }
             }
           });
-          if (!userFound) alert('Incorrect password!');
+          if (!userFound) {
+            alert('Incorrect password! Please try again.');
+          }
         } else {
-          alert('Account not found! Register first.');
+          alert('Account not found! Please register first.');
         }
       }).catch(error => {
         alert("Database connection error: " + error.message);
@@ -66,3 +105,5 @@
     }
   });
 </script>
+</body>
+</html>
