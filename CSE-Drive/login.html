@@ -55,9 +55,7 @@
   const database = firebase.database();
 
   window.onload = function() {
-    if (localStorage.getItem("isLoggedIn") === "true") {
-      window.location.href = "class directory.html";
-    }
+    console.log("Login page loaded successfully.");
   };
 
   document.getElementById('loginForm').addEventListener('submit', function(e) {
