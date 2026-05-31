@@ -65,7 +65,7 @@
         let userCountSpan = document.getElementById('user-count');
         if (tableBody)
                 return;
-            database.ref('users').orderByChild('status').equalTo('pending').on('value',sapshot => {
+            database.ref('users').orderByChild('status').equalTo('pending').on('value',snapshot => {
                 tableBody.innerHTML ='';
                 let count = 0;
                 if(!snapshot.exists()){
