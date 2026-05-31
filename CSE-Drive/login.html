@@ -36,6 +36,11 @@
         <h4>Made with 🧡 by priya | © 2026 CSE Drive. All Rights Reserved.</h4>
     </footer>
     <script>
+        window.onload = function(){
+            if(localstorage.getItem("isLoggedIn") === "true"){
+                window.location.href = "class directory.html";
+            }
+        };
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         let role = document.getElementById('role-select').value;
